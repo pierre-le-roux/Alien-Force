@@ -1,0 +1,81 @@
+Agent
+    Game
+    Model
+
+    Training
+        state = get_state(game)
+        action = get_move(state)
+            model.predict()
+        reward, game_over , score = game.play_step(action)
+        new_state = get_state(game)
+        remember
+        model.train()
+
+Game (pygame)
+    play_step(action)
+        reward, game_over, score
+
+Model
+    linear_qnet(DQN) (feed forward neural net with few linear layers)
+        model.predict(state)
+            action
+
+Reward
+    Kill Enemy  +10
+    Avoid Shot  +5
+    Get Killed  -10
+    else:       0
+
+Actions
+    [shoot, left, up, right, down]
+
+    [1, 0, 0, 0, 0] - shoot
+    [0, 1, 0, 0, 0] - left turn
+    [0, 0, 1, 0, 0] - straight
+    [0, 0, 0, 1, 0] - right turn
+    [0, 0, 0, 0, 1] - reverse
+
+State (12 Values)
+
+    [danger straight, danger right, danger left, danger behind,
+    
+    direction left, direction right, direction up, direction down,
+    
+    enemy left, enemy right, enemy up, enemy down]
+
+    [E  b   b   b   b
+
+        b   b   b   b
+
+        b   b   b   b
+
+        b   b   b   b P] (up)
+
+    [0, 0, 0, 0,
+     0, 0, 1, 0,
+     1, 0, 1, 0]
+
+Neural Network (Deep) Q Learning
+
+    State (12)    ->    Hidden Layer (n size)   ->   Actions (5)
+
+    Q Value = Quality of action
+
+    0. Init Q value (=init model)
+    1. Choose action (model.predict(state)) (or randome move at start of generations)
+    2. Perform action
+    3. Measure reward
+    4. Update Q value (+ train model)
+    5. Repeat 2-4
+
+    We need to optimise for a variable
+
+Bellman Equation
+
+    New q Value = Current Q value + Learning Rate[ Reward for taking action + discount rate(Maximum Q state)]
+
+    Q = model.predict(state_0)
+
+    Q_new = R + y*max(Q(state_1))
+
+    Loss = (Q_new - Q)^2 -> Mean Squared Error used in our optimisation
