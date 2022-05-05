@@ -33,19 +33,13 @@ def draw_grid():
     """
     for x in range(SPACESHIP_WIDTH, WIDTH-SPACESHIP_WIDTH, SPACESHIP_WIDTH*2):
         for y in range(SPACESHIP_HEIGHT, HEIGHT-SPACESHIP_HEIGHT, SPACESHIP_HEIGHT*2):
-            ASTERIOD = pygame.transform.rotate(ASTEROID_IMAGE, random.randint(1, 180))
+            ASTERIOD = pygame.transform.rotate(ASTEROID_IMAGE, 0)
             WIN.blit(ASTERIOD, (x, y))
 
-def draw_background():
+def draw_window(player, enemy):
 
     WIN.fill(BLACK)
-
     draw_grid()
-
-    pygame.display.update()
-
-
-def draw_window(player, enemy):
 
     WIN.blit(PLAYER, (player.x, player.y))
     WIN.blit(ENEMY, (enemy.x, enemy.y))
@@ -56,8 +50,6 @@ def draw_window(player, enemy):
 def main():
     player = pygame.Rect(WIDTH - SPACESHIP_WIDTH, HEIGHT - SPACESHIP_HEIGHT, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
     enemy = pygame.Rect(0, 0, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
-    
-    draw_background()
 
     clock = pygame.time.Clock()
     run = True
@@ -67,6 +59,7 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
+        player.x += -1
         draw_window(player, enemy)
 
     
