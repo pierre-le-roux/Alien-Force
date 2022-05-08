@@ -30,10 +30,10 @@ Actions
     [shoot, left, up, right, down]
 
     [1, 0, 0, 0, 0] - shoot
-    [0, 1, 0, 0, 0] - left turn
-    [0, 0, 1, 0, 0] - straight
-    [0, 0, 0, 1, 0] - right turn
-    [0, 0, 0, 0, 1] - reverse
+    [0, 1, 0, 0, 0] - left
+    [0, 0, 1, 0, 0] - up
+    [0, 0, 0, 1, 0] - right
+    [0, 0, 0, 0, 1] - down
 
 State (12 Values)
 
