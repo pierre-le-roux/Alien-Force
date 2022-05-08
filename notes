@@ -83,6 +83,8 @@ Bellman Equation
 
 Player Orientation
 
+    # Very cool way to account for orientation when you don't know in which direction you are pointing
+
     left, up, down, right
     [0, 0, 0, 0]
 
