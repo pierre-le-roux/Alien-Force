@@ -46,8 +46,8 @@ def draw_window(player, player_rotation, enemy, enemy_rotation):
     WIN.fill(BLACK)
     for asteroid in ASTEROIDS:
         WIN.blit(ASTEROID_IMAGE, (asteroid.x, asteroid.y))
-    PLAYER = pygame.transform.rotate(PLAYER, player_rotation)
-    WIN.blit(PLAYER, (player.x, player.y))
+        
+    WIN.blit(pygame.transform.rotate(PLAYER, player_rotation), (player.x, player.y))
     WIN.blit(pygame.transform.rotate(ENEMY, enemy_rotation), (enemy.x, enemy.y))
 
     pygame.display.update()
