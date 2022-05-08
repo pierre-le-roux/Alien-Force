@@ -32,16 +32,20 @@ def draw_grid():
     """
     generate grid that spaceships will be flying within
     """
+    asteroids = []
     for x in range(SPACESHIP_WIDTH, WIDTH-SPACESHIP_WIDTH, SPACESHIP_WIDTH*2):
         for y in range(SPACESHIP_HEIGHT, HEIGHT-SPACESHIP_HEIGHT, SPACESHIP_HEIGHT*2):
-            ASTERIOD = pygame.transform.rotate(ASTEROID_IMAGE, 0)
-            WIN.blit(ASTERIOD, (x, y))
+            asteroids.append(pygame.Rect(x, y, SPACESHIP_WIDTH, SPACESHIP_HEIGHT))
+    return asteroids
+
+
+ASTEROIDS = draw_grid()
 
 def draw_window(player, enemy):
 
     WIN.fill(BLACK)
-    draw_grid()
-
+    for asteroid in ASTEROIDS:
+        WIN.blit(ASTEROID_IMAGE, (asteroid.x, asteroid.y))
     WIN.blit(PLAYER, (player.x, player.y))
     WIN.blit(ENEMY, (enemy.x, enemy.y))
 
@@ -67,6 +71,37 @@ def movement(keys_pressed, player, enemy=False):
         if keys_pressed[pygame.K_DOWN] and player.y  + SPACESHIP_HEIGHT + VEL <= HEIGHT: # DOWN
             player.y += VEL
 
+    if collide(player):
+        if enemy:
+            if keys_pressed[pygame.K_a] and player.x - VEL >= 0: # LEFT
+                player.x += VEL
+            if keys_pressed[pygame.K_d] and player.x + SPACESHIP_WIDTH + VEL <= WIDTH: # RIGHT
+                player.x -= VEL
+            if keys_pressed[pygame.K_w] and player.y - VEL >= 0: # UP
+                player.y += VEL
+            if keys_pressed[pygame.K_s] and player.y + SPACESHIP_HEIGHT + VEL <= HEIGHT: # DOWN
+                player.y -= VEL
+        else:
+            if keys_pressed[pygame.K_LEFT] and player.x - VEL >= 0: # LEFT
+                player.x += VEL
+            if keys_pressed[pygame.K_RIGHT] and player.x + SPACESHIP_WIDTH + VEL <= WIDTH: # RIGHT
+                player.x -= VEL
+            if keys_pressed[pygame.K_UP] and player.y - VEL >= 0: # UP
+                player.y += VEL
+            if keys_pressed[pygame.K_DOWN] and player.y  + SPACESHIP_HEIGHT + VEL <= HEIGHT: # DOWN
+                player.y -= VEL
+        
+
+def collide(player):
+    collision = False
+
+    for asteroid in ASTEROIDS:
+        if asteroid.colliderect(player):
+            collision = True
+            break
+
+    return collision
+
 def main():
     player = pygame.Rect(WIDTH - SPACESHIP_WIDTH, HEIGHT - SPACESHIP_HEIGHT, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
     enemy = pygame.Rect(0, 0, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
@@ -84,6 +119,7 @@ def main():
         movement(keys_pressed, enemy, True)
 
         draw_window(player, enemy)
+
 
     
     pygame.quit()
