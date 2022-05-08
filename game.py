@@ -1,3 +1,4 @@
+from shutil import move
 import pygame
 import random
 import os
@@ -11,7 +12,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 FPS = 60
-
+VEL = 5
 SPACESHIP_WIDTH, SPACESHIP_HEIGHT = 50, 50
 
 PLAYER_IMAGE = pygame.image.load(
@@ -46,6 +47,25 @@ def draw_window(player, enemy):
 
     pygame.display.update()
 
+def movement(keys_pressed, player, enemy=False):
+    if enemy:
+        if keys_pressed[pygame.K_LEFT]: # LEFT
+            player.x -= VEL
+        if keys_pressed[pygame.K_RIGHT]: # RIGHT
+            player.x += VEL
+        if keys_pressed[pygame.K_UP]: # UP
+            player.y -= VEL
+        if keys_pressed[pygame.K_DOWN]: # DOWN
+            player.y += VEL
+    else:
+        if keys_pressed[pygame.K_a]: # LEFT
+            player.x -= VEL
+        if keys_pressed[pygame.K_d]: # RIGHT
+            player.x += VEL
+        if keys_pressed[pygame.K_w]: # UP
+            player.y -= VEL
+        if keys_pressed[pygame.K_s]: # DOWN
+            player.y += VEL
 
 def main():
     player = pygame.Rect(WIDTH - SPACESHIP_WIDTH, HEIGHT - SPACESHIP_HEIGHT, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
@@ -59,7 +79,10 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-        player.x += -1
+        keys_pressed = pygame.key.get_pressed()
+        movement(keys_pressed, player)
+        movement(keys_pressed, enemy, True)
+
         draw_window(player, enemy)
 
     
