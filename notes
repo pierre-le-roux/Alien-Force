@@ -79,3 +79,34 @@ Bellman Equation
     Q_new = R + y*max(Q(state_1))
 
     Loss = (Q_new - Q)^2 -> Mean Squared Error used in our optimisation
+
+
+Player Orientation
+
+    left, up, down, right
+    [0, 0, 0, 0]
+
+    but it can be represented as
+    [0, 0, 1] # right
+    [1, 0, 0] # left
+    [0, 1, 0] # up
+    [0, 0, 0] # down
+
+    # But could also be used as
+    # [1, 1] # up
+    # [1, 0] # left
+    # [0, 1] # right
+    # [0, 0] # down
+
+    How much should the spaceship turn?
+    if d_old != d_new:
+        delta = d_old - d_new
+
+    if delta == [0, 1, 0], [0, -1, 0], [1, 0, -1], [-1, 0, 1]:
+        rotate = 180
+
+    else if delta = [-1, 1, 0], [1, 0, 0], [0, 0, -1], [0, -1, 1]:
+        rotate = -90
+
+    else if delta = [0, 1, -1], [0, 0, 1], [-1, 0, 0], [1, -1, 0]:
+        rotate = 90
